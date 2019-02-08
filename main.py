@@ -53,12 +53,9 @@ def upload_comics_into_group_wall(comics):
         'v': 5.92,
     }
 
-    publish_on_wall = requests.get(
-        'https://api.vk.com/method/wall.post', params=params_publish)
+    requests.get('https://api.vk.com/method/wall.post', params=params_publish)
 
-    remove_image_file(comics)
-
-    return f"Successfully loaded https://vk.com/wall-{os.getenv('group_id')}_{publish_on_wall.json()['response']['post_id']}"
+    return True
 
 
 def remove_image_file(comics):
@@ -66,6 +63,13 @@ def remove_image_file(comics):
     os.remove(filename)
 
 
-if __name__ == '__main__':
+def main():
     load_dotenv()
-    print(upload_comics_into_group_wall(get_ramdom_comics()))
+    comics = get_ramdom_comics()
+    if upload_comics_into_group_wall(comics):
+        print("Successfully loaded")
+    remove_image_file(comics)
+
+
+if __name__ == '__main__':
+    main()

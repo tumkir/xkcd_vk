@@ -28,10 +28,9 @@ def upload_comics_into_group_wall(comics):
 
     upload_url = requests.get('https://api.vk.com/method/photos.getWallUploadServer',
                               params=params_upload).json()['response']['upload_url']
-    image_file_description = open(f"{comics['num']}.png", 'rb')
-    comics_image = {'photo': image_file_description}
-    upload_response = requests.post(upload_url, files=comics_image).json()
-    image_file_description.close()
+
+    with open(f"{comics['num']}.png", 'rb') as image:
+        upload_response = requests.post(upload_url, files={'photo': image}).json()
 
     params_save = {
         'group_id': os.getenv('group_id'),

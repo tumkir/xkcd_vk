@@ -41,14 +41,14 @@ def upload_comics_into_group_wall(comics):
         'v': 5.92,
     }
 
-    save_image = requests.post(
+    uploaded_image = requests.post(
         'https://api.vk.com/method/photos.saveWallPhoto', data=params_save).json()
 
     params_publish = {
         'owner_id': -int(os.getenv('group_id')),
         'from_group': 1,
         'message': comics['title'],
-        'attachments': f"photo{save_image['response'][0]['owner_id']}_{save_image['response'][0]['id']}",
+        'attachments': f"photo{uploaded_image['response'][0]['owner_id']}_{uploaded_image['response'][0]['id']}",
         'access_token': os.getenv('access_token'),
         'v': 5.92,
     }
